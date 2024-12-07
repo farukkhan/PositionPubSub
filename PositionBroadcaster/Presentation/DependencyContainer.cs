@@ -2,6 +2,7 @@
 using Application;
 using Infrastructure;
 using Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Presentation
 {
@@ -13,6 +14,12 @@ namespace Presentation
                                   .AddTransient<IBroadcasterService, BroadcasterService>()
                                   .AddSingleton<ISettings, Settings>()
                                   .AddTransient<IEventBus, RabbitMQEventBus>()
+                                  .AddLogging(builder =>
+                                  {
+                                      builder.ClearProviders();
+                                      builder.AddConsole();
+                                      builder.SetMinimumLevel(LogLevel.Warning);
+                                  })
                                   .BuildServiceProvider();
 
             return serviceProvider;

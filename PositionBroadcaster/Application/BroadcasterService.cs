@@ -25,7 +25,6 @@ namespace Application
         {
             var position = Position.CreatePosition();
 
-            //Fire and forgot????
             await _eventBus.PublishAsync(new PositionCreatedEvent(position.Id, position.Latitude, position.Longitude,
                 position.Height));
         }

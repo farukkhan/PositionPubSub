@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Domain.Events;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Application.Test
@@ -15,7 +16,8 @@ namespace Application.Test
         {
             _settingsMock.Setup(s => s.BroadcastFrequencyMilliSecs).Returns(200);
 
-            using (var broadcasterService = new BroadcasterService(_settingsMock.Object, _eventBusMock.Object))
+            using (var broadcasterService =
+                   new BroadcasterService(_settingsMock.Object, _eventBusMock.Object))
             {
                 broadcasterService.StartBroadcasting();
 
