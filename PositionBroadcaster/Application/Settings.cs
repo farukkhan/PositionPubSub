@@ -1,16 +1,12 @@
-﻿namespace Application
+﻿using Application.Interfaces;
+
+namespace Application
 {
     public class Settings : ISettings
     {
-        public int BroadcastFrequencyMilliSecs{ get; }
+        public int BroadcastFrequencyMilliSecs => GetRandomBroadcastFrequencyMilliSecs();
 
-        public Settings()
-        {
-            BroadcastFrequencyMilliSecs = GetRandomBroadcastFrequencyMilliSecs();
-        }
-
-
-        private int GetRandomBroadcastFrequencyMilliSecs()
+        private static int GetRandomBroadcastFrequencyMilliSecs()
         {
             var random = new Random();
             return random.Next(1010, 5000);

@@ -1,15 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Application;
+using Infrastructure;
+using Application.Interfaces;
 
 namespace Presentation
 {
-    internal class DependencyContainer
+    public static class DependencyContainer
     {
-        public ServiceProvider Register()
+        public static ServiceProvider Register()
         {
             var serviceProvider = new ServiceCollection()
                                   .AddTransient<IBroadcasterService, BroadcasterService>()
                                   .AddSingleton<ISettings, Settings>()
+                                  .AddTransient<IEventBus, RabbitMQEventBus>()
                                   .BuildServiceProvider();
 
             return serviceProvider;
