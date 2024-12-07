@@ -11,7 +11,11 @@
 
         public void StartBroadcasting()
         {
-            Console.WriteLine(@"Started Broadcasting");
+            _ = new Timer(Broadcast, null, 0, _settings.BroadcastFrequencyMilliSecs);
+        }
+
+        private void Broadcast(object state)
+        {
         }
     }
 }

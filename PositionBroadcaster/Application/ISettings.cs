@@ -8,6 +8,6 @@ namespace Application
 {
     public interface ISettings
     {
-        double BroadcastFrequency{ get; }
+        int BroadcastFrequencyMilliSecs{ get; }
     }
 }

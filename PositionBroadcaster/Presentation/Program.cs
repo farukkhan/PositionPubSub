@@ -13,4 +13,6 @@ var broadcastService = serviceProvider.GetRequiredService<IBroadcasterService>()
 
 broadcastService.StartBroadcasting();
 
+Console.ReadLine();
+
 

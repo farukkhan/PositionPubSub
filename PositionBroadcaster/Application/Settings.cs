@@ -2,19 +2,18 @@
 {
     public class Settings : ISettings
     {
-        public double BroadcastFrequency{ get; }
+        public int BroadcastFrequencyMilliSecs{ get; }
 
         public Settings()
         {
-            BroadcastFrequency = GetRandomBroadcastFrequency();
+            BroadcastFrequencyMilliSecs = GetRandomBroadcastFrequencyMilliSecs();
         }
 
-        private double GetRandomBroadcastFrequency()
+
+        private int GetRandomBroadcastFrequencyMilliSecs()
         {
             var random = new Random();
-            var randomvalue = random.NextDouble() * (5 - 1.01) + 1.01;
-
-            return randomvalue;
+            return random.Next(1010, 5000);
         }
     }
 }
