@@ -2,6 +2,6 @@
 {
     public interface IPositionReceiverService
     {
-        Task StartAsync();
+        Task StartAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

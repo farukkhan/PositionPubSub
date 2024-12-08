@@ -4,6 +4,6 @@ namespace Application.Interfaces
 {
     public interface IEventBus
     {
-        Task ReceiveAsync();
+        Task ReceiveAsync(CancellationToken cancellationToken);
     }
 }

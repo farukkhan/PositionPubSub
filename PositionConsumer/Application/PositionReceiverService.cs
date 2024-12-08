@@ -11,9 +11,9 @@ namespace Application
             _eventBus = eventBus;
         }
 
-        public async Task StartAsync()
+        public async Task StartAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            await _eventBus.ReceiveAsync();
+            await _eventBus.ReceiveAsync(cancellationToken: cancellationToken);
         }
     }
 }
