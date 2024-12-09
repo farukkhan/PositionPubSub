@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 Console.WriteLine($"Consumer ProcessId: {Process.GetCurrentProcess().Id}");
 
 var serviceProvider = DependencyContainer.Register();
-var positionReceiverService = serviceProvider.GetRequiredService<IPositionReceiverService>();
+var positionReceiverProcess = serviceProvider.GetRequiredService<IPositionConsumerProcess>();
 
-await positionReceiverService.StartAsync();
+await positionReceiverProcess.StartAsync();
 
 Console.ReadLine();

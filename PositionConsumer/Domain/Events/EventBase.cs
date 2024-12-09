@@ -1,12 +1,14 @@
-﻿namespace Domain.Events
+﻿using MediatR;
+
+namespace Domain.Events
 {
-    public class EventBase
+    public class EventBase : INotification
     {
         public DateTime Timestamp{ get; protected set; }
 
-        protected EventBase()
+        protected EventBase(DateTime time)
         {
-            Timestamp = DateTime.UtcNow;
+            Timestamp = time;
         }
     }
 }

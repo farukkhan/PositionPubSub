@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 using Application.Interfaces;
+using Domain.Events;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
@@ -13,10 +14,14 @@ namespace Infrastructure
 {
     public sealed class RabbitMQEventBus : IEventBus
     {
+        private readonly IEventRepository _positionRepository;
+
         private readonly ILogger _logger;
 
-        public RabbitMQEventBus(ILogger<RabbitMQEventBus> logger)
+        public RabbitMQEventBus(IEventRepository positionRepository,
+            ILogger<RabbitMQEventBus> logger)
         {
+            _positionRepository = positionRepository;
             _logger = logger;
         }
 
@@ -50,8 +55,16 @@ namespace Infrastructure
                 {
                     var body = eventArgs.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
-                    var position = JsonConvert.DeserializeObject<Position>(message);
-                    Console.WriteLine($"Message received: {position.Id} Timestamp:{position.Timestamp}");
+
+                    JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
+
+                    var positionCreatedEvent =
+                        JsonConvert.DeserializeObject<PositionCreatedEvent>(message, serializerSettings);
+
+                    _positionRepository.PersistEvent(positionCreatedEvent);
+
+                    Console.WriteLine(
+                        $"Message received: {positionCreatedEvent.Id},{positionCreatedEvent.Latitude},{positionCreatedEvent.Longitude},{positionCreatedEvent.Height},{positionCreatedEvent.CreateDateTime.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}");
                 };
 
                 //read the message
