@@ -24,7 +24,7 @@ namespace Presentation
                                   .AddSingleton<IPositionAggregatorService, PositionAggregatorService>()
                                   .AddTransient<IPositionConsumerProcess, PositionConsumerProcess>()
                                   .AddTransient<IEventBus, MassTransitEventBus>()
-                                  .AddSingleton<IEventRepository, PositionRepository>()
+                                  .AddSingleton<IEventRepository, EventRepository>()
                                   .AddSingleton<IAggregatedPositionRepository, AggregatedPositionRepository>()
                                   .Configure<RabbitMQSettings>(configBuilder.GetRequiredSection("RabbitMQSettings"))
                                   .AddLogging(builder =>

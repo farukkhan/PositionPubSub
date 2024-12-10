@@ -1,10 +1,10 @@
-﻿using Domain.Events;
+﻿using IntergrationEvents;
 
 namespace Application.Interfaces
 {
     public interface IEventRepository
     {
-        void PersistEvent(PositionCreatedEvent positionCreatedEvent);
-        IEnumerable<PositionCreatedEvent> GetEvents(int count);
+        void PersistEvent(PositionCreatedIntegrationEvent positionCreatedEvent);
+        IEnumerable<PositionCreatedIntegrationEvent> GetEventsAndDequeue(int count);
     }
 }

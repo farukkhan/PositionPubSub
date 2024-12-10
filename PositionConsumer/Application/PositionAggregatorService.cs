@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Application.Interfaces;
-using Domain.Events;
 using Domain.Entities;
+using IntergrationEvents;
 
 namespace Application
 {
@@ -10,7 +10,7 @@ namespace Application
         ILogger<PositionAggregatorService> logger)
         : IPositionAggregatorService
     {
-        public void Aggregate(IEnumerable<PositionCreatedEvent> positionsToAggregate)
+        public void Aggregate(IEnumerable<PositionCreatedIntegrationEvent> positionsToAggregate)
         {
             foreach (var positionCreatedEvent in positionsToAggregate.ToList().Distinct())
             {

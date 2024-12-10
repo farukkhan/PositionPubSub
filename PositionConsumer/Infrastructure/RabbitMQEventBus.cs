@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 using Application.Interfaces;
-using Domain.Events;
+using IntergrationEvents;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Polly;
@@ -59,7 +59,7 @@ namespace Infrastructure
                     JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
 
                     var positionCreatedEvent =
-                        JsonConvert.DeserializeObject<PositionCreatedEvent>(message, serializerSettings);
+                        JsonConvert.DeserializeObject<PositionCreatedIntegrationEvent>(message, serializerSettings);
 
                     _positionRepository.PersistEvent(positionCreatedEvent);
 

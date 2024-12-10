@@ -20,7 +20,7 @@ namespace Application.Processes
             {
                 while (await timer.WaitForNextTickAsync(stoppingToken))
                 {
-                    var positionsToAggregate = positionRepository.GetEvents(500);
+                    var positionsToAggregate = positionRepository.GetEventsAndDequeue(500);
                     positionAggregatorService.Aggregate(positionsToAggregate);
                 }
             }

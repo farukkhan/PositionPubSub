@@ -1,9 +1,9 @@
-﻿using Domain.Events;
+﻿using IntergrationEvents;
 
 namespace Application.Interfaces
 {
     public interface IPositionAggregatorService
     {
-        void Aggregate(IEnumerable<PositionCreatedEvent> positionsToAggregate);
+        void Aggregate(IEnumerable<PositionCreatedIntegrationEvent> positionsToAggregate);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Events;
+using IntergrationEvents;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -8,9 +8,9 @@ namespace Infrastructure
 {
     public class PositionCreatedEventConsumer(
         IEventRepository eventRepository,
-        ILogger<PositionCreatedEventConsumer> logger) : IConsumer<PositionCreatedEvent>
+        ILogger<PositionCreatedEventConsumer> logger) : IConsumer<PositionCreatedIntegrationEvent>
     {
-        public Task Consume(ConsumeContext<PositionCreatedEvent> context)
+        public Task Consume(ConsumeContext<PositionCreatedIntegrationEvent> context)
         {
             var jsonMessage = JsonConvert.SerializeObject(context.Message);
             Console.WriteLine($"Message received: {jsonMessage}");

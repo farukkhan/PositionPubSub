@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F1D31AC-EA77-45DB-8A2F-7B65FC18CFE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{7CC30D34-8E91-4A28-8D16-8A186AB0593D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{7CC30D34-8E91-4A28-8D16-8A186AB0593D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Test", "Tests\Application.Test\Application.Test.csproj", "{3F6202AB-FB2F-45A5-87A4-0AA90179E1B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Test", "Tests\Application.Test\Application.Test.csproj", "{3F6202AB-FB2F-45A5-87A4-0AA90179E1B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntergrationEvents", "..\Common\IntergrationEvents\IntergrationEvents.csproj", "{680D6200-B488-4503-9DCF-13A81464F21E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{3F6202AB-FB2F-45A5-87A4-0AA90179E1B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F6202AB-FB2F-45A5-87A4-0AA90179E1B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F6202AB-FB2F-45A5-87A4-0AA90179E1B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{680D6200-B488-4503-9DCF-13A81464F21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{680D6200-B488-4503-9DCF-13A81464F21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{680D6200-B488-4503-9DCF-13A81464F21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{680D6200-B488-4503-9DCF-13A81464F21E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,10 +9,10 @@ namespace Application.Processes
     {
         public Task StartAsync(CancellationToken cancellationToken = default)
         {
-            var receiveTask = eventBus.StartAsync(cancellationToken: cancellationToken);
+            var eventbusTask = eventBus.StartAsync(cancellationToken: cancellationToken);
             var aggregatorStartTask = positionAggregatorService.StartAsync(cancellationToken);
 
-            return Task.WhenAll(receiveTask, aggregatorStartTask);
+            return Task.WhenAll(eventbusTask, aggregatorStartTask);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using Application.Interfaces;
-using Domain.Events;
+using IntergrationEvents;
 
 namespace Infrastructure.Repository
 {
-    public class PositionRepository : IEventRepository
+    public class EventRepository : IEventRepository
     {
-        private readonly List<PositionCreatedEvent> _positions = new();
+        private readonly List<PositionCreatedIntegrationEvent> _positions = new();
         private readonly object _lock = new();
 
-        public void PersistEvent(PositionCreatedEvent positionCreatedEvent)
+        public void PersistEvent(PositionCreatedIntegrationEvent positionCreatedEvent)
         {
             lock (_lock)
             {
@@ -16,9 +16,9 @@ namespace Infrastructure.Repository
             }
         }
 
-        public IEnumerable<PositionCreatedEvent> GetEvents(int count)
+        public IEnumerable<PositionCreatedIntegrationEvent> GetEventsAndDequeue(int count)
         {
-            List<PositionCreatedEvent> positionsToProcess;
+            List<PositionCreatedIntegrationEvent> positionsToProcess;
 
             lock (_lock)
             {

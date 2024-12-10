@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Domain.Events;
 using MassTransit;
 
 namespace Infrastructure
