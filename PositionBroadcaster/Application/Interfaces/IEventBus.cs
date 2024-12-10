@@ -4,6 +4,6 @@ namespace Application.Interfaces
 {
     public interface IEventBus
     {
-        Task PublishAsync(EventBase @event);
+        Task PublishAsync<T>(T @event) where T : EventBase;
     }
 }

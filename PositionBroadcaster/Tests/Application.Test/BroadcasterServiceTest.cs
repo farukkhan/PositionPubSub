@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Domain.Events;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 
 namespace Application.Test
@@ -8,16 +8,22 @@ namespace Application.Test
     [TestClass]
     public class BroadcasterServiceTest
     {
-        private readonly Mock<ISettings> _settingsMock = new();
+        private readonly Mock<IOptionsMonitor<Settings>> _settingsOptionMock = new();
         private readonly Mock<IEventBus> _eventBusMock = new();
 
         [TestMethod]
         public async Task StartBroadcasting_CreatesPositionAndPublishes()
         {
-            _settingsMock.Setup(s => s.BroadcastFrequencyMilliSecs).Returns(200);
+            var settings = new Settings
+            {
+                MaxBroadcastRange = 200,
+                MinBroadcastRange = 150
+            };
+
+            _settingsOptionMock.Setup(x => x.CurrentValue).Returns(settings);
 
             using (var broadcasterService =
-                   new BroadcasterService(_settingsMock.Object, _eventBusMock.Object))
+                   new BroadcasterService(_settingsOptionMock.Object, _eventBusMock.Object))
             {
                 broadcasterService.StartBroadcasting();
 

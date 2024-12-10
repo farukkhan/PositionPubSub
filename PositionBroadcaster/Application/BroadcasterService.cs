@@ -1,20 +1,14 @@
 ﻿using Application.Interfaces;
 using Domain;
 using Domain.Events;
+using Microsoft.Extensions.Options;
 
 namespace Application
 {
-    public sealed class BroadcasterService : IBroadcasterService
+    public sealed class BroadcasterService(IOptionsMonitor<Settings> settings, IEventBus eventBus) : IBroadcasterService
     {
-        private readonly ISettings _settings;
-        private readonly IEventBus _eventBus;
+        private readonly Settings _settings = settings.CurrentValue;
         private Timer _timer;
-
-        public BroadcasterService(ISettings settings, IEventBus eventBus)
-        {
-            _settings = settings;
-            _eventBus = eventBus;
-        }
 
         public void StartBroadcasting()
         {
@@ -25,7 +19,7 @@ namespace Application
         {
             var position = Position.CreatePosition();
 
-            await _eventBus.PublishAsync(new PositionCreatedEvent(position.Id, position.Latitude, position.Longitude,
+            await eventBus.PublishAsync(new PositionCreatedEvent(position.Id, position.Latitude, position.Longitude,
                 position.Height));
         }
 

@@ -16,7 +16,7 @@ namespace Infrastructure
             _logger = logger;
         }
 
-        public async Task PublishAsync(EventBase @event)
+        public async Task PublishAsync<T>(T @event) where T : EventBase
         {
             try
             {
