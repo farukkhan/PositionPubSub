@@ -18,7 +18,7 @@ namespace Application.Test
 
             positionReceiverService.StartAsync();
 
-            _eventBusMock.Verify(x => x.ReceiveAsync(It.IsAny<CancellationToken>()), Times.Once);
+            _eventBusMock.Verify(x => x.StartAsync(It.IsAny<CancellationToken>()), Times.Once);
             _positionAggregatorProcessMock.Verify(x => x.StartAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
     }

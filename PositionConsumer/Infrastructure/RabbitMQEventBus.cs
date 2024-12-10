@@ -25,7 +25,7 @@ namespace Infrastructure
             _logger = logger;
         }
 
-        public async Task ReceiveAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             try
             {

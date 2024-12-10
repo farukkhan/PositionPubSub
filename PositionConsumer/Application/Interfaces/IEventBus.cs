@@ -1,9 +1,7 @@
-﻿using Domain.Events;
-
-namespace Application.Interfaces
+﻿namespace Application.Interfaces
 {
     public interface IEventBus
     {
-        Task ReceiveAsync(CancellationToken cancellationToken);
+        Task StartAsync(CancellationToken cancellationToken);
     }
 }

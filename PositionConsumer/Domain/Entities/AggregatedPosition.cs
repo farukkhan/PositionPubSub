@@ -1,6 +1,4 @@
-﻿using Domain.Events;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class AggregatedPosition
     {
