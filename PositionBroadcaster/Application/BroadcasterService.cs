@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain;
-using Domain.Events;
+using IntergrationEvents;
 using Microsoft.Extensions.Options;
 
 namespace Application
@@ -17,14 +17,17 @@ namespace Application
 
         private async void BroadcastAsync(object? state)
         {
+            //Should, PositionCreatedEvent returned. And with event handler raise PositionCreatedIntegrationEvent???
             var position = Position.CreatePosition();
 
-            await eventBus.PublishAsync(new PositionCreatedEvent(position.Id, position.Latitude, position.Longitude,
+            await eventBus.PublishAsync(new PositionCreatedIntegrationEvent(position.Id, position.Latitude,
+                position.Longitude,
                 position.Height));
         }
 
         public void Dispose()
         {
+            //Will be disposed by the IoC
             _timer?.Dispose();
         }
     }

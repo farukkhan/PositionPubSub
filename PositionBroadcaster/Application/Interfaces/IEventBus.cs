@@ -1,9 +1,9 @@
-﻿using Domain.Events;
+﻿using IntergrationEvents;
 
 namespace Application.Interfaces
 {
     public interface IEventBus
     {
-        Task PublishAsync<T>(T @event) where T : EventBase;
+        Task PublishAsync<T>(T @event) where T : IntegrationEventBase;
     }
 }

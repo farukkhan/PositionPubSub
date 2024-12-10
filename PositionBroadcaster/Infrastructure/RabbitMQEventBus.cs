@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Application.Interfaces;
-using Domain.Events;
+using IntergrationEvents;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -16,7 +16,7 @@ namespace Infrastructure
             _logger = logger;
         }
 
-        public async Task PublishAsync<T>(T @event) where T : EventBase
+        public async Task PublishAsync<T>(T @event) where T : IntegrationEventBase
         {
             try
             {

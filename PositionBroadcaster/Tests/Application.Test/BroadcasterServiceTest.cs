@@ -1,5 +1,5 @@
 using Application.Interfaces;
-using Domain.Events;
+using IntergrationEvents;
 using Microsoft.Extensions.Options;
 using Moq;
 
@@ -30,7 +30,7 @@ namespace Application.Test
                 await Task.Delay(500);
             }
 
-            _eventBusMock.Verify(e => e.PublishAsync(It.IsAny<PositionCreatedEvent>()), Times.AtLeast(2));
+            _eventBusMock.Verify(e => e.PublishAsync(It.IsAny<PositionCreatedIntegrationEvent>()), Times.AtLeast(2));
         }
     }
 }
