@@ -20,13 +20,21 @@ namespace Application.Processes
             {
                 while (await timer.WaitForNextTickAsync(stoppingToken))
                 {
-                    var positionsToAggregate = positionRepository.GetEventsAndDequeue(500);
-                    positionAggregatorService.Aggregate(positionsToAggregate);
+                    try
+                    {
+                        var positionsToAggregate = positionRepository.GetEventsAndDequeue(500);
+                        positionAggregatorService.Aggregate(positionsToAggregate);
+                    }
+                    catch (Exception
+                           ex) //Running in the background exception handling is very important otherwise will fail silently
+                    {
+                        logger.LogError(ex, "Error during aggregate.");
+                    }
                 }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
-                logger.LogInformation("PositionAggregatorProcess is stopping.");
+                logger.LogError(ex, "Error in aggregate process.");
             }
         }
     }

@@ -37,6 +37,9 @@ namespace Application.Services
                             logger.LogInformation(
                                 "Aggregated position with Id:{0} has been recalculated.",
                                 existingAggregatedPosition.Id);
+                            Console.WriteLine(
+                                "Aggregated position with Id:{0} has been recalculated.",
+                                existingAggregatedPosition.Id);
                         }
                     }
                     else

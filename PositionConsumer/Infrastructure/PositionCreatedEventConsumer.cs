@@ -13,7 +13,7 @@ namespace Infrastructure
         public Task Consume(ConsumeContext<PositionCreatedIntegrationEvent> context)
         {
             var jsonMessage = JsonConvert.SerializeObject(context.Message);
-            Console.WriteLine($"Message received: {jsonMessage}");
+            logger.LogInformation($"Message received: {jsonMessage}");
 
             eventRepository.PersistEvent(context.Message);
 

@@ -51,9 +51,22 @@ namespace Application.Services
                 }
             }
 
-            delayedPositionAggregatorService.Aggregate(delayedEvents);
+            AggregateDelayedEventsWithExceptionHandling(delayedEvents);
 
             aggregatedPositionRepository.SaveChanges();
+        }
+
+        private void AggregateDelayedEventsWithExceptionHandling(List<PositionCreatedIntegrationEvent> delayedEvents)
+        {
+            try
+            {
+                delayedPositionAggregatorService.Aggregate(delayedEvents);
+            }
+            catch (Exception
+                   ex) //If it is not handled then the save of the already processed positions will not be called.
+            {
+                logger.LogError(ex, ex.Message);
+            }
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Infrastructure;
 using Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using Application.Processes;
 using Application.Services;
 using Infrastructure.Repository;
-using MassTransit;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Presentation
 {
@@ -18,6 +17,11 @@ namespace Presentation
             IConfigurationRoot configBuilder = new ConfigurationBuilder()
                                                .AddJsonFile("appsettings.json")
                                                .Build();
+
+            var logger = new LoggerConfiguration()
+                         .WriteTo.File(@"Logs/Log.txt", rollingInterval: RollingInterval.Minute)
+                         .MinimumLevel.Information()
+                         .CreateLogger();
 
             var serviceProvider = new ServiceCollection()
                                   .AddSingleton<IPositionAggregatorProcess, PositionAggregatorProcess>()
@@ -32,27 +36,10 @@ namespace Presentation
                                   .AddLogging(builder =>
                                   {
                                       builder.ClearProviders();
-                                      builder.AddConsole();
+                                      builder.AddSerilog(logger);
                                       builder.SetMinimumLevel(LogLevel.Information);
                                   })
-                                  .AddMassTransit(config =>
-                                  {
-                                      config.AddConsumers(Assembly.GetAssembly(typeof(MassTransitEventBus)));
-
-                                      config.UsingRabbitMq((context, configure) =>
-                                      {
-                                          var settings = configBuilder.GetSection("RabbitMQSettings")
-                                                                      .Get<RabbitMQSettings>();
-
-                                          configure.Host(new Uri(settings.Host),
-                                              host =>
-                                              {
-                                                  host.Username(settings.UserName);
-                                                  host.Password(settings.Password);
-                                              });
-                                          configure.ConfigureEndpoints(context);
-                                      });
-                                  })
+                                  .AddAndConfigureMassTransit(configBuilder)                                  
                                   .BuildServiceProvider();
 
             return serviceProvider;
