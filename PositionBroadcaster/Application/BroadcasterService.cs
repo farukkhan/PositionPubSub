@@ -22,7 +22,7 @@ namespace Application
 
             await eventBus.PublishAsync(new PositionCreatedIntegrationEvent(position.Id, position.Latitude,
                 position.Longitude,
-                position.Height));
+                position.Height, position.CreateDateTime));
         }
 
         public void Dispose()

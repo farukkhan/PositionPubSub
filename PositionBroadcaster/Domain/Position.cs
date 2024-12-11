@@ -6,6 +6,7 @@
         public double Latitude{ get; }
         public double Longitude{ get; }
         public double Height{ get; }
+        public DateTime CreateDateTime{ get; }
 
         private Position(double latitude, double longitude, double height)
         {
@@ -13,6 +14,9 @@
             Latitude = latitude;
             Longitude = longitude;
             Height = height;
+            CreateDateTime = DelaySimulateSettings.DelaySeconds.HasValue
+                ? DateTime.UtcNow.AddSeconds(-DelaySimulateSettings.DelaySeconds.Value)
+                : DateTime.UtcNow;
         }
 
         public static Position CreatePosition()
