@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using Application;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure;
 using Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using Application.Processes;
+using Application.Services;
 using Infrastructure.Repository;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -20,8 +20,10 @@ namespace Presentation
                                                .Build();
 
             var serviceProvider = new ServiceCollection()
-                                  .AddSingleton<IPositionAggregateProcessor, PositionAggregatorProcess>()
+                                  .AddSingleton<IPositionAggregatorProcess, PositionAggregatorProcess>()
                                   .AddSingleton<IPositionAggregatorService, PositionAggregatorService>()
+                                  .AddSingleton<IDelayedPositionAggregatorService, DelayedPositionAggregatorService>()
+                                  .AddSingleton<IAggregatorServiceHelper, AggregatorServiceHelper>()
                                   .AddTransient<IPositionConsumerProcess, PositionConsumerProcess>()
                                   .AddTransient<IEventBus, MassTransitEventBus>()
                                   .AddSingleton<IEventRepository, EventRepository>()

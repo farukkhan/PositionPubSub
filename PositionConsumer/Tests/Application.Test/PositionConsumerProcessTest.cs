@@ -8,7 +8,7 @@ namespace Application.Test
     public class PositionConsumerProcessTest
     {
         private readonly Mock<IEventBus> _eventBusMock = new();
-        private readonly Mock<PositionAggregatorProcess> _positionAggregatorProcessMock = new();
+        private readonly Mock<IPositionAggregatorProcess> _positionAggregatorProcessMock = new();
 
         [TestMethod]
         public void StartAsync_CallsTheBusToReceive()

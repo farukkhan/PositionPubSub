@@ -8,36 +8,36 @@ using Moq;
 namespace Application.Test
 {
     [TestClass]
-    public class PositionAggregatorServiceTest
+    public class DelayedPositionAggregatorServiceTest
     {
-        private Mock<IAggregatedPositionRepository> _aggregatedPositionRepositoryMock = new();
-        private Mock<IDelayedPositionAggregatorService> _delayedPositionAggregatorServiceMock = new();
-        private Mock<IAggregatorServiceHelper> _aggregateServiceHelperMock = new();
-        private Mock<ILogger<PositionAggregatorService>> _loggerMock = new();
+        private readonly Mock<IAggregatedPositionRepository> _aggregatedPositionRepositoryMock = new();
+        private readonly Mock<IAggregatorServiceHelper> _aggregateServiceHelperMock = new();
+        private readonly Mock<ILogger<PositionAggregatorService>> _loggerMock = new();
 
-        private PositionAggregatorService _positionAggregatorService;
+        private DelayedPositionAggregatorService _delayedPositionAggregatorService;
 
         [TestInitialize]
         public void Initialize()
         {
-            _positionAggregatorService = new PositionAggregatorService(_aggregatedPositionRepositoryMock.Object,
-                _delayedPositionAggregatorServiceMock.Object, _aggregateServiceHelperMock.Object, _loggerMock.Object);
+            _delayedPositionAggregatorService = new DelayedPositionAggregatorService(
+                _aggregatedPositionRepositoryMock.Object,
+                _aggregateServiceHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod]
-        public void Aggregate_GivenPositionEventsAreContinuationFromRecentlyAggregated_DoAverage()
+        public void Aggregate_GivenPositionEventsAreContinuationFromPreviouslyAggregated_DoAverage()
         {
             var events = SetUpEvents();
-            var recentAggregatedPositions = SetUpAggregatedPositions();
-            var existingAggretedPosition = recentAggregatedPositions.First();
+            var previouslyAggregatedPositions = SetupAggregatedPositions();
+            var existingAggregatedPosition = previouslyAggregatedPositions.First();
 
-            _aggregatedPositionRepositoryMock.Setup(x => x.GetLastFive()).Returns(recentAggregatedPositions);
+            _aggregatedPositionRepositoryMock.Setup(x => x.GetLastFive()).Returns(previouslyAggregatedPositions);
             _aggregateServiceHelperMock
                 .Setup(x => x.GetAggregatedPositionForCreationTime(It.IsAny<IEnumerable<AggregatedPosition>>(),
                     It.IsAny<DateTime>()))
-                .Returns(existingAggretedPosition);
+                .Returns(existingAggregatedPosition);
 
-            _positionAggregatorService.Aggregate(events);
+            _delayedPositionAggregatorService.Aggregate(events);
 
             _aggregateServiceHelperMock.Verify(
                 x => x.AverageWithAggregatedPosition(It.IsAny<AggregatedPosition>(),
@@ -46,47 +46,22 @@ namespace Application.Test
         }
 
         [TestMethod]
-        public void Aggregate_GivenPositionEventsAreDelayed_DoDelayedAggregate()
+        public void Aggregate_GivenPositionEventsAreNotContinuationExistingAggregates_AddNewAggregate()
         {
             //Arrange
             var events = SetUpEvents();
-            var recentAggregatedPositions = SetUpAggregatedPositions();
-
-            _aggregatedPositionRepositoryMock.Setup(x => x.GetLastFive()).Returns(recentAggregatedPositions);
-            _aggregateServiceHelperMock
-                .Setup(x => x.IsDelayedEvent(It.IsAny<IEnumerable<AggregatedPosition>>(),
-                    It.IsAny<DateTime>()))
-                .Returns(true);
-
-            //Act
-            _positionAggregatorService.Aggregate(events);
-
-            //Assert
-            _aggregateServiceHelperMock.Verify(
-                x => x.IsDelayedEvent(It.IsAny<IEnumerable<AggregatedPosition>>(),
-                    It.IsAny<DateTime>()),
-                Times.Exactly(5));
-
-            _delayedPositionAggregatorServiceMock.Verify(x => x.Aggregate(events), Times.Once);
-        }
-
-        [TestMethod]
-        public void Aggregate_GivenPositionEventsAreContinuation_ButNotWithinOneSecTimeSpan_AddNewAggregate()
-        {
-            //Arrange
-            var events = SetUpEvents();
-            var recentAggregatedPositions = SetUpAggregatedPositions();
+            var recentAggregatedPositions = SetupAggregatedPositions();
 
             _aggregatedPositionRepositoryMock.Setup(x => x.GetLastFive()).Returns(recentAggregatedPositions);
 
             //Act
-            _positionAggregatorService.Aggregate(events);
+            _delayedPositionAggregatorService.Aggregate(events);
 
             //Assert
             _aggregatedPositionRepositoryMock.Verify(x => x.Add(It.IsAny<AggregatedPosition>()), Times.Exactly(5));
         }
 
-        private List<AggregatedPosition> SetUpAggregatedPositions()
+        private List<AggregatedPosition> SetupAggregatedPositions()
         {
             List<AggregatedPosition> aggregatedPositions = new List<AggregatedPosition>();
 

@@ -1,6 +1,6 @@
 ﻿namespace Application.Interfaces
 {
-    public interface IPositionAggregateProcessor : IDisposable
+    public interface IPositionAggregatorProcess : IDisposable
     {
         Task StartAsync(CancellationToken cancellationToken);
     }

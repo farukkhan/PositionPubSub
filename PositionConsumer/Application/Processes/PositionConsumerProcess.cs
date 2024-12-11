@@ -4,7 +4,7 @@ namespace Application.Processes
 {
     public class PositionConsumerProcess(
         IEventBus eventBus,
-        IPositionAggregateProcessor positionAggregatorService)
+        IPositionAggregatorProcess positionAggregatorService)
         : IPositionConsumerProcess
     {
         public Task StartAsync(CancellationToken cancellationToken = default)

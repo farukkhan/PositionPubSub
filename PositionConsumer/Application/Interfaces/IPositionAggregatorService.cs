@@ -4,6 +4,6 @@ namespace Application.Interfaces
 {
     public interface IPositionAggregatorService
     {
-        void Aggregate(IEnumerable<PositionCreatedIntegrationEvent> positionsToAggregate);
+        void Aggregate(IEnumerable<PositionCreatedIntegrationEvent> events);
     }
 }

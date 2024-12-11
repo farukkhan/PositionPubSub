@@ -52,6 +52,11 @@
             }
             else
             {
+                if (NewestTime <= createdTime && OldestTime.Value >= createdTime)
+                {
+                    return true;
+                }
+
                 if (NewestTime >= createdTime &&
                     (OldestTime.Value - createdTime).TotalSeconds <= 1)
                 {

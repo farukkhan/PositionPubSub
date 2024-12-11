@@ -8,7 +8,7 @@ namespace Application.Processes
         IPositionAggregatorService positionAggregatorService,
         IEventRepository positionRepository,
         ILogger<PositionAggregatorProcess> logger)
-        : BackgroundService, IPositionAggregateProcessor
+        : BackgroundService, IPositionAggregatorProcess
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {

@@ -4,6 +4,9 @@ namespace Application.Interfaces
 {
     public interface IAggregatedPositionRepository
     {
-        List<AggregatedPosition> AggregatedPositions{ get; }
+        void Add(AggregatedPosition positionCreatedEvent);
+        IEnumerable<AggregatedPosition> GetByDateTimes(IEnumerable<DateTime> dateTimes);
+        IEnumerable<AggregatedPosition> GetLastFive();
+        void SaveChanges();
     }
 }
