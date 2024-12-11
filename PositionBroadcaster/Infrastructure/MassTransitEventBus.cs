@@ -12,8 +12,8 @@ namespace Infrastructure
         {
             await publishEndpoint.Publish(@event);
 
-            var jsonEvent = JsonConvert.SerializeObject(@event) ?? String.Empty;
-            logger.LogInformation(jsonEvent);
+            var jsonEvent = JsonConvert.SerializeObject(@event); //This will make the process slow
+            logger.LogInformation(jsonEvent); //This will make the process slow
         }
     }
 }

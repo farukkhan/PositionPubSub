@@ -17,7 +17,5 @@ namespace Application.Interfaces
 
         bool IsDelayedEvent(IEnumerable<AggregatedPosition> recentAggregatedPositions,
             DateTime eventCreateDateTime);
-
-        //void LogAggregatedPosition(AggregatedPosition previousAggregatedPosition);
     }
 }

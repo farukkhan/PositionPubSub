@@ -12,8 +12,8 @@ namespace Infrastructure
     {
         public Task Consume(ConsumeContext<PositionCreatedIntegrationEvent> context)
         {
-            var jsonMessage = JsonConvert.SerializeObject(context.Message);
-            logger.LogInformation($"Message received: {jsonMessage}");
+            var jsonMessage = JsonConvert.SerializeObject(context.Message); //This will make the process slow
+            logger.LogInformation($"Message received: {jsonMessage}"); //This will make the process slow
 
             eventRepository.PersistEvent(context.Message);
 
