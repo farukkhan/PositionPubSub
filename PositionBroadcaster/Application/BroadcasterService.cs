@@ -13,6 +13,8 @@ namespace Application
 
         public void StartBroadcasting(bool simulateDelay = false)
         {
+            Console.WriteLine($"Broadcast frequency:{_settings.BroadcastFrequencyMilliSecs} miliseconds");
+
             _simulateDelay = simulateDelay;
             _timer = new Timer(BroadcastAsync, null, 0, _settings.BroadcastFrequencyMilliSecs);
         }

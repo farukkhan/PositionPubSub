@@ -5,6 +5,7 @@ using Application.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Presentation
 {
@@ -16,33 +17,23 @@ namespace Presentation
                                                .AddJsonFile("appsettings.json")
                                                .Build();
 
+            var logger = new LoggerConfiguration()
+                         .WriteTo.File(@"Logs/Log.txt", rollingInterval: RollingInterval.Minute)
+                         .MinimumLevel.Information()
+                         .CreateLogger();
+
             var serviceProvider = new ServiceCollection()
                                   .AddTransient<IBroadcasterService, BroadcasterService>()
                                   .AddTransient<IEventBus, MassTransitEventBus>()
                                   .AddLogging(builder =>
                                   {
                                       builder.ClearProviders();
-                                      builder.AddConsole();
-                                      builder.SetMinimumLevel(LogLevel.Warning);
+                                      builder.AddSerilog(logger);
+                                      builder.SetMinimumLevel(LogLevel.Information);
                                   })
                                   .Configure<Settings>(configBuilder.GetRequiredSection("Settings"))
                                   .Configure<RabbitMQSettings>(configBuilder.GetRequiredSection("RabbitMQSettings"))
-                                  .AddMassTransit(config =>
-                                  {
-                                      config.UsingRabbitMq((context, configure) =>
-                                      {
-                                          var settings = configBuilder.GetSection("RabbitMQSettings")
-                                                                      .Get<RabbitMQSettings>();
-
-                                          configure.Host(new Uri(settings.Host),
-                                              host =>
-                                              {
-                                                  host.Username(settings.UserName);
-                                                  host.Password(settings.Password);
-                                              });
-                                          configure.ConfigureEndpoints(context);
-                                      });
-                                  })
+                                  .AddAndConfigureMassTransit(configBuilder)
                                   .BuildServiceProvider();
 
             return serviceProvider;
