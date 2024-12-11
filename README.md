@@ -7,7 +7,7 @@ Both ways are described below:
 + Install Docker version 4.34.3
 + Install Docker compose
 + Start Docker
-+ From command prompt, get into the the directory where the docker-compose.yml file exist.
++ From command prompt, get into the the directory where the docker-compose.yml file exist. The file is stored in the current repository 'Tools' folder
 + run the command 'docker-compose up -d'
 
 **Intall RabbitMQ from installer:**
