@@ -7,11 +7,13 @@ namespace Application
 {
     public sealed class BroadcasterService(IOptionsMonitor<Settings> settings, IEventBus eventBus) : IBroadcasterService
     {
+        private bool _simulateDelay;
         private readonly Settings _settings = settings.CurrentValue;
         private Timer _timer;
 
-        public void StartBroadcasting()
+        public void StartBroadcasting(bool simulateDelay = false)
         {
+            _simulateDelay = simulateDelay;
             _timer = new Timer(BroadcastAsync, null, 0, _settings.BroadcastFrequencyMilliSecs);
         }
 
@@ -22,7 +24,11 @@ namespace Application
 
             await eventBus.PublishAsync(new PositionCreatedIntegrationEvent(position.Id, position.Latitude,
                 position.Longitude,
-                position.Height, position.CreateDateTime));
+                position.Height,
+                _simulateDelay
+                    ? position.CreateDateTime.AddMilliseconds(-_settings.DelayInMilliSec)
+                    : position.CreateDateTime));
+            ;
         }
 
         public void Dispose()

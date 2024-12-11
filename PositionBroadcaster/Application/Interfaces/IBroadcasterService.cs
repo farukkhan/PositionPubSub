@@ -2,5 +2,5 @@
 
 public interface IBroadcasterService : IDisposable
 {
-    void StartBroadcasting();
+    void StartBroadcasting(bool simulateDelay);
 }

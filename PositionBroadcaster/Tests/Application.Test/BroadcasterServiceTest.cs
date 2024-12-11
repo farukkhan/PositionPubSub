@@ -16,8 +16,8 @@ namespace Application.Test
         {
             var settings = new Settings
             {
-                MaxBroadcastRange = 200,
-                MinBroadcastRange = 150
+                MaxBroadcastRangeMilliSec = 200,
+                MinBroadcastRangeMilliSec = 150
             };
 
             _settingsOptionMock.Setup(x => x.CurrentValue).Returns(settings);

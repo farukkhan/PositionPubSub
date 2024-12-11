@@ -14,9 +14,7 @@
             Latitude = latitude;
             Longitude = longitude;
             Height = height;
-            CreateDateTime = DelaySimulateSettings.DelaySeconds.HasValue
-                ? DateTime.UtcNow.AddSeconds(-DelaySimulateSettings.DelaySeconds.Value)
-                : DateTime.UtcNow;
+            CreateDateTime = DateTime.UtcNow;
         }
 
         public static Position CreatePosition()

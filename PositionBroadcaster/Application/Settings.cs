@@ -4,14 +4,16 @@
     {
         public int BroadcastFrequencyMilliSecs => GetRandomBroadcastFrequencyMilliSecs();
 
-        public int MinBroadcastRange{ get; set; }
+        public int MinBroadcastRangeMilliSec{ get; set; }
 
-        public int MaxBroadcastRange{ get; set; }
+        public int MaxBroadcastRangeMilliSec{ get; set; }
+
+        public int DelayInMilliSec{ get; set; }
 
         private int GetRandomBroadcastFrequencyMilliSecs()
         {
             var random = new Random();
-            return random.Next(MinBroadcastRange, MaxBroadcastRange);
+            return random.Next(MinBroadcastRangeMilliSec, MaxBroadcastRangeMilliSec);
         }
     }
 }

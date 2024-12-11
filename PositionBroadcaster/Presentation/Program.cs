@@ -7,10 +7,21 @@ using Presentation;
 
 Console.WriteLine($"Broadcaster ProcessId: {Process.GetCurrentProcess().Id}");
 
+bool delaySimulate = false;
+Console.Write(@"Do you want to simulate delay packet creation?y/n: ");
+var key = Console.ReadKey();
+
+if (key.KeyChar == 'y')
+{
+    delaySimulate = true;
+}
+
+Console.WriteLine();
+
 var serviceProvider = DependencyContainer.Register();
 var broadcastService = serviceProvider.GetRequiredService<IBroadcasterService>();
 
-broadcastService.StartBroadcasting();
+broadcastService.StartBroadcasting(delaySimulate);
 
 Console.ReadLine();
 

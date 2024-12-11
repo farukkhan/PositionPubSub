@@ -53,7 +53,7 @@ namespace Application.Services
 
             delayedPositionAggregatorService.Aggregate(delayedEvents);
 
-            aggregatedPositionRepository.Save();
+            aggregatedPositionRepository.SaveChanges();
         }
     }
 }
